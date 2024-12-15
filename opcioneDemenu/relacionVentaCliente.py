@@ -2,7 +2,7 @@ import os
 import csv
 
 # Ruta base donde se encuentran los archivos CSV
-RUTA_BASE = "ruta/a/tu/carpeta"  # Cambia esto por la ruta de tu carpeta
+RUTA_BASE = "./archivos"  
 
 def cargar_csv(nombre_archivo):
     """Función para cargar un archivo CSV."""

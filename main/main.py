@@ -3,7 +3,7 @@ import opcioneDemenu.ventasFuturas as ventasFuturas
 import opcioneDemenu.simularCompra as simularCompra
 import opcioneDemenu.revisionPresupuesto as revisionPresupuesto
 import opcioneDemenu.relacionProductoCliente as relacionProductoCliente
-from graficos import generar_graficos
+from opcioneDemenu.graficos import generar_graficos
 
 
 def menu_principal():
