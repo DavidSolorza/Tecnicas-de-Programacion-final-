@@ -57,5 +57,3 @@ def relacionProductoCliente():
         if cliente['total_compras'] > 0:
             print(f"{cliente['nombre']} - Compras: {cliente['total_compras']}")
 
-# Llamada a la función principal
-relacionProductoCliente()
