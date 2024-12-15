@@ -16,6 +16,9 @@ def cargar_csv(nombre_archivo):
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo '{nombre_archivo}' en la ruta '{RUTA_BASE}'.")
         return []
+    except Exception as e:
+        print(f"Error al leer el archivo '{nombre_archivo}': {e}")
+        return []
 
 def relacionProductoCliente():
     """
@@ -30,26 +33,29 @@ def relacionProductoCliente():
         return
 
     print("\nCategorías disponibles:")
-    categorias = list({producto['categoria'] for producto in productos})
+    categorias = list({producto.get('categoria', 'Desconocida') for producto in productos})
     for idx, categoria in enumerate(categorias, 1):
         print(f"{idx}. {categoria}")
 
     try:
-        seleccionadas = [int(i) - 1 for i in input("\nSelecciona categorías (1,2): ").split(',')]
+        seleccionadas = [int(i.strip()) - 1 for i in input("\nSelecciona categorías (1,2,3): ").split(',')]
         categorias_seleccionadas = [categorias[i] for i in seleccionadas if 0 <= i < len(categorias)]
     except (ValueError, IndexError):
-        print("Error: Selección inválida.")
+        print("Error: Selección inválida. Asegúrate de ingresar números válidos separados por comas.")
         return
 
-    compras_por_cliente = {c['id_cliente']: {'nombre': c['nombre'], 'total_compras': 0} for c in clientes}
+    compras_por_cliente = {c.get('id_cliente'): {'nombre': c.get('nombre', 'Desconocido'), 'total_compras': 0} for c in clientes}
 
     for venta in ventas:
-        producto = next((p for p in productos if p['id_producto'] == venta['id_producto']), None)
-        if producto and producto['categoria'] in categorias_seleccionadas:
-            compras_por_cliente[venta['id_cliente']]['total_compras'] += int(venta['cantidad'])
+        producto = next((p for p in productos if p.get('id_producto') == venta.get('id_producto')), None)
+        if producto and producto.get('categoria') in categorias_seleccionadas:
+            compras_por_cliente[venta.get('id_cliente')]['total_compras'] += int(venta.get('cantidad', 0))
 
     clientes_ordenados = sorted(compras_por_cliente.values(), key=lambda x: x['total_compras'], reverse=True)
     print("\nClientes destacados:")
     for cliente in clientes_ordenados:
         if cliente['total_compras'] > 0:
             print(f"{cliente['nombre']} - Compras: {cliente['total_compras']}")
+
+# Llamada a la función principal
+relacionProductoCliente()

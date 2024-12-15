@@ -84,30 +84,3 @@ def revisar_presupuesto():
         print(f"\nTotal de unidades compradas: {cantidad_total}")
     else:
         print("No se encontraron productos que se ajusten a tu presupuesto.")
-
-
-def revisar_presupuesto():
-    """
-    Encuentra combinaciones de productos que se ajusten al presupuesto.
-    """
-    productos = cargar_csv('productos.csv')
-    if not productos:
-        print("Error: No se pudieron cargar los productos.")
-        return
-
-    try:
-        presupuesto = float(input("\nIngresa tu presupuesto: $"))
-        if presupuesto <= 0:
-            raise ValueError
-    except ValueError:
-        print("Error: Presupuesto inválido.")
-        return
-
-    seleccionados, total_cantidad = backtracking_productos(productos, presupuesto)
-    if seleccionados:
-        print("\nProductos seleccionados:")
-        for producto in seleccionados:
-            print(f"{producto['nombre']} - Precio: ${producto['precio']}")
-        print(f"\nTotal unidades: {total_cantidad}")
-    else:
-        print("No se encontraron combinaciones.")
