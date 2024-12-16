@@ -33,6 +33,8 @@ def simular_compra():
         return
 
     carrito = []
+    costo_total = 0
+
     while presupuesto > 0:
         for idx, p in enumerate(productos, 1):
             print(f"{idx}. {p['nombre']} - ${p['precio']}")
@@ -44,15 +46,21 @@ def simular_compra():
             cantidad = int(input("¿Cantidad?: "))
             producto = productos[eleccion - 1]
             costo = cantidad * float(producto['precio'])
+            
+
+           
 
             if costo <= presupuesto:
                 carrito.append(producto['nombre'])
                 presupuesto -= costo
+                costo_total += costo
             else:
                 print("No tienes suficiente presupuesto.")
         except (ValueError, IndexError):
             print("Selección inválida.")
-
+        
+    
     print("\nCompra completada:")
     print(", ".join(carrito))
-
+    print(f"\nCosto total: ${costo_total:.2f}")
+    print(f"Presupuesto restante: ${presupuesto:.2f}")
